@@ -8,6 +8,9 @@ from didcomm.protocols.routing.forward import unpack_forward
 from didcomm.unpack import unpack
 from tests.test_vectors.common import ALICE_DID, BOB_DID, CHARLIE_DID
 
+from pprint import pprint
+import json
+
 
 @pytest.mark.asyncio
 async def test_demo_repudiable_authenticated_encryption(
@@ -29,15 +32,21 @@ async def test_demo_repudiable_authenticated_encryption(
         pack_config=PackEncryptedConfig(),
     )
     packed_msg = pack_result.packed_msg
-    print(f"Sending ${packed_msg} to ${pack_result.service_metadata.service_endpoint}")
+    # print(f"Sending ${packed_msg} to ${pack_result.service_metadata.service_endpoint}")
+    print(f"Sending packed_msg to '{pack_result.service_metadata.service_endpoint}'")
+    pprint(json.loads(packed_msg))
 
     # BOB's MEDIATOR
     forward_bob = await unpack_forward(resolvers_config_mediator1, packed_msg, True)
-    print(f"Got {forward_bob.forwarded_msg}")
+    # print(f"Got {forward_bob.forwarded_msg}")
+    print()
+    pprint(forward_bob.forwarded_msg)
 
     # BOB
     unpack_result = await unpack(resolvers_config_bob, forward_bob.forwarded_msg)
-    print(f"Got ${unpack_result.message} message")
+    # print(f"Got ${unpack_result.message} message")
+    print()
+    pprint(unpack_result.message)
 
 
 @pytest.mark.asyncio
@@ -59,15 +68,21 @@ async def test_demo_repudiable_non_authenticated_encryption(
         pack_config=PackEncryptedConfig(),
     )
     packed_msg = pack_result.packed_msg
-    print(f"Sending ${packed_msg} to ${pack_result.service_metadata.service_endpoint}")
+    # print(f"Sending ${packed_msg} to ${pack_result.service_metadata.service_endpoint}")
+    print(f"Sending packed_msg to '{pack_result.service_metadata.service_endpoint}'")
+    pprint(json.loads(packed_msg))
 
     # BOB's MEDIATOR
     forward_bob = await unpack_forward(resolvers_config_mediator1, packed_msg, True)
-    print(f"Got {forward_bob.forwarded_msg}")
+    # print(f"Got {forward_bob.forwarded_msg}")
+    print()
+    pprint(forward_bob.forwarded_msg)
 
     # BOB
     unpack_result = await unpack(resolvers_config_bob, forward_bob.forwarded_msg)
-    print(f"Got ${unpack_result.message} message")
+    # print(f"Got ${unpack_result.message} message")
+    print()
+    pprint(unpack_result.message)
 
 
 @pytest.mark.asyncio

@@ -7,6 +7,7 @@ from typing import List, Optional
 from didcomm.common.types import (
     DID_URL,
     DID,
+    JSON,
     VerificationMaterial,
     VerificationMethodType,
 )
@@ -54,6 +55,15 @@ class DIDDoc:
         :return: the service endpoint or None of there is no one for the given identifier
         """
         return search_first_in_iterable(self.didcomm_services, lambda x: x.id == id)
+
+    def from_json(cls, value: JSON) -> None:
+        raise NotImplementedError()
+
+    def to_dict(self) -> dict:
+        raise NotImplementedError()
+
+    def to_json(self) -> JSON:
+        raise NotImplementedError()
 
 
 @dataclass
